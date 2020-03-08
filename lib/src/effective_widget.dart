@@ -14,15 +14,19 @@ class EffectiveWidget extends StatefulWidget {
 
 class _EffectiveWidgetState extends State<EffectiveWidget> {
   bool _visible = true;
+  Widget _cacheWidget;
 
   @override
   Widget build(BuildContext context) {
+    if (_visible) {
+      _cacheWidget = widget.child;
+    }
     return VisibilityDetector(
       key: widget.key,
       onVisibilityChanged: (VisibilityInfo visibilityInfo) {
         _visible = visibilityInfo.visibleFraction > 0.0;
       },
-      child: _visible ? widget.child : SizedBox.shrink(),
+      child: _cacheWidget,
     );
   }
 }
